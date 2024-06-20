@@ -8,7 +8,11 @@ document.getElementById('reviewForm').addEventListener('submit', async function(
     const country = document.getElementById('country').value;
     const reviewsDiv = document.getElementById('reviews');
     const analysisResultsDiv = document.getElementById('analysisResults');
-
+    const loader = document.getElementById('loader');
+    const getReviewsBtn = document.getElementById('getReviewsBtn');
+    loader.style.display = 'block';
+    getReviewsBtn.style.display = 'none';
+    getReviewsBtn.disabled = true;
     try {
         
         const isUrl = asinOrUrl.startsWith('http');
@@ -23,6 +27,11 @@ document.getElementById('reviewForm').addEventListener('submit', async function(
     } catch (error) {
         console.error('Error fetching reviews:', error);
         document.getElementById('reviews').innerHTML = '<p>Error fetching reviews.</p>';
+    }finally {
+        // Ocultar loader
+        loader.style.display = 'none';
+        getReviewsBtn.style.display = 'block';
+        getReviewsBtn.disabled = false;
     }
 });
 
