@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Product Reviews</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+</head>
+<body>
+    <div class="title">
+        <h1>Amazon Product Reviews</h1>
+    </div>
+    <main>
+        <form id="reviewForm">
+            <label for="asinOrUrl">ASIN or URL:</label>
+            <input type="text" id="asinOrUrl" name="asinOrUrl" required>
+            <!-- <input type="text" id="asin" name="asin" required> -->
+            <br>
+            <label for="number">Number of reviews:</label>
+            <input type="number" id="number" name="number" min="1" max="100" value="3" required>
+            <br>
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" value="PE" required>
+            <br>
+            <button type="submit">Get Reviews</button>
+        </form>
+        <div id="reviews"></div>
+    
+        <div id="analysisResults">
+            <h2>Analysis Results</h2>
+            <div class="summary">
+                <p>Total Reviews: <span id="totalReviews"></span></p>
+                <p>Percent Positive: <span id="percentPositive"></span></p>
+                <p>Percent Negative: <span id="percentNegative"></span></p>
+                <p>Percent Neutral: <span id="percentNeutral"></span></p>
+            </div>
+            <canvas id="sentimentChart" width="400" height="400"></canvas>
+            <div class="topics">
+                <h3>Positive Topics:</h3>
+                <ul id="positiveTopics" class="positive"></ul>
+                <h3>Negative Topics:</h3>
+                <ul id="negativeTopics" class="negative"></ul>
+                <h3>Neutral Topics:</h3>
+                <ul id="neutralTopics" class="neutral"></ul>
+            </div>
+         
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "scraping-analisys",
+  "version": "1.0.0",
+  "description": "An sentiment analisys in js",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "js",
+    "sentiment",
+    "analisys",
+    "geminis"
+  ],
+  "author": "Jesus Sebastian Huamanculi Casavilca",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.13.0",
+    "amazon-buddy": "^2.2.45",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}
