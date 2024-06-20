@@ -11,7 +11,11 @@ Este proyecto es una aplicación web que utiliza análisis de sentimientos y web
 
 ## Demo
 
-...pronto
+
+
+https://github.com/sebitas13/Amazon-review-analyzer/assets/78001255/1d16ddc8-bbe0-4fd2-a53e-9c64eb11e421
+
+
 
 ## Instalación
 
