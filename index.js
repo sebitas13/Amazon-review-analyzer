@@ -1,6 +1,6 @@
 const express = require('express');
 const amazonScraper = require('amazon-buddy');
-const {run} = require('./analisys/sentimentAnalysis');
+const {getAnalysis} = require('./analisys/sentimentAnalysis');
 const app = express();
 const port = 3000;
 let arrayReviews = [];
@@ -11,13 +11,12 @@ app.get('/reviews/:asin', async (req, res) => {
     const number = req.query.number || 10;
     const country = req.query.country || 'PE';
     try {
-        console.log(number);
+
         const reviews = await amazonScraper.reviews({ asin: asin, number: number, country: country });
         arrayReviews = [...reviews.result];
 
         arrayReviews = arrayReviews.map(e=>e.review);    
-        console.log(arrayReviews);
-        const analysis = await run(arrayReviews);
+        const analysis = await getAnalysis(arrayReviews);
         console.log(analysis);
         res.status(200).json({
             status : true,

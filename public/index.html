@@ -6,6 +6,7 @@
     <title>Amazon Product Reviews</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     
 </head>
 <body>
@@ -31,7 +32,7 @@
         </form>
         <div id="reviews"></div>
     
-        <div id="analysisResults">
+        <!-- <div id="analysisResults">
             <h2>Analysis Results</h2>
             <div class="summary">
                 <p>Total Reviews: <span id="totalReviews"></span></p>
@@ -49,7 +50,10 @@
                 <ul id="neutralTopics" class="neutral"></ul>
             </div>
          
-        </div>
+        </div> -->
+        <div id="analysisResults"></div>
+        <canvas id="sentimentChart"></canvas>
+        <canvas id="topicChart"></canvas>
     </main>
 
     <script src="script.js"></script>

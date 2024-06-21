@@ -64,64 +64,129 @@ function renderReviews(container,data){
 }
 
 
-function renderAnalysis(container, analysis) {
-    const totalReviewsElement = document.getElementById('totalReviews');
-    const percentPositiveElement = document.getElementById('percentPositive');
-    const percentNegativeElement = document.getElementById('percentNegative');
-    const percentNeutralElement = document.getElementById('percentNeutral');
-    const positiveTopicsList = document.getElementById('positiveTopics');
-    const negativeTopicsList = document.getElementById('negativeTopics');
-    const neutralTopicsList = document.getElementById('neutralTopics');
-
-    totalReviewsElement.textContent = analysis.totalReviews;
-    percentPositiveElement.textContent = analysis.percentPositive + '%';
-    percentNegativeElement.textContent = analysis.percentNegative + '%';
-    percentNeutralElement.textContent = analysis.percentNeutral + '%';
-
-    renderTopics(positiveTopicsList, analysis.positiveTopics);
-    renderTopics(negativeTopicsList, analysis.negativeTopics);
-    renderTopics(neutralTopicsList, analysis.neutralTopics);
-    renderChart(analysis);
-    
-}
-
-function renderTopics(container, topics) {
-    container.innerHTML = '';
-    topics.forEach(topic => {
-        const li = document.createElement('li');
-        li.textContent = topic;
-        container.appendChild(li);
-    });
-}
-
+// Variables para almacenar las instancias de los gráficos
 let sentimentChart = null;
-function renderChart(analysis) {
-    // Destruir el gráfico existente si existe
+let topicChart = null;
+
+function renderAnalysis(analysisResultsDiv, analysis) {
+    // Inicializa los contadores y el objeto para la frecuencia de los tópicos
+    let positiveCount = 0;
+    let negativeCount = 0;
+    let neutralCount = 0;
+    const topicFrequency = {};
+
+    // Procesa cada análisis de reseña para contar sentimientos y tópicos
+    analysis.forEach(item => {
+        // Contabiliza los sentimientos
+        if (item.sentimiento === 'positivo') {
+            positiveCount++;
+        } else if (item.sentimiento === 'negativo') {
+            negativeCount++;
+        } else if (item.sentimiento === 'neutral') {
+            neutralCount++;
+        }
+
+        // Contabiliza los tópicos
+        if (!topicFrequency[item.topico]) {
+            topicFrequency[item.topico] = 0;
+        }
+        topicFrequency[item.topico]++;
+    });
+
+    // Calcula totales y porcentajes
+    const totalReviews = positiveCount + negativeCount + neutralCount;
+    const positivePercentage = (positiveCount / totalReviews) * 100;
+    const negativePercentage = (negativeCount / totalReviews) * 100;
+    const neutralPercentage = (neutralCount / totalReviews) * 100;
+
+    // Calcula porcentajes de tópicos
+    const totalTopics = Object.values(topicFrequency).reduce((a, b) => a + b, 0);
+    const topicPercentage = {};
+    for (const [topic, count] of Object.entries(topicFrequency)) {
+        topicPercentage[topic] = (count / totalTopics) * 100;
+    }
+
+    // Muestra los resultados en el div
+    analysisResultsDiv.innerHTML = `
+        <h3>Total de Reseñas: ${totalReviews}</h3>
+        <p>Positivas: ${positivePercentage.toFixed(2)}%</p>
+        <p>Negativas: ${negativePercentage.toFixed(2)}%</p>
+        <p>Neutrales: ${neutralPercentage.toFixed(2)}%</p>
+    `;
+
+    // Datos para el gráfico de sentimientos
+    const sentimentData = {
+        labels: ['Positivo', 'Negativo', 'Neutral'],
+        datasets: [{
+            label: 'Porcentaje de Sentimientos',
+            data: [positivePercentage, negativePercentage, neutralPercentage],
+            backgroundColor: ['#4CAF50', '#F44336', '#FF9800'],
+        }]
+    };
+
+    // Datos para el gráfico de tópicos
+    const topicData = {
+        labels: Object.keys(topicPercentage),
+        datasets: [{
+            label: 'Porcentaje de Tópicos',
+            data: Object.values(topicPercentage),
+            backgroundColor: '#00FFFF',
+        }]
+    };
+
+    // Destruir gráficos existentes antes de crear nuevos
     if (sentimentChart) {
         sentimentChart.destroy();
     }
-    const ctx = document.getElementById('sentimentChart').getContext('2d');
-    sentimentChart = new Chart(ctx, {
+    if (topicChart) {
+        topicChart.destroy();
+    }
+
+    // Crear nuevos gráficos con opciones para ajustar el tamaño de las etiquetas
+    const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
+    const topicCtx = document.getElementById('topicChart').getContext('2d');
+
+    sentimentChart = new Chart(sentimentCtx, {
         type: 'pie',
-        data: {
-            labels: ['Positive', 'Negative', 'Neutral'],
-            datasets: [{
-                data: [analysis.percentPositive, analysis.percentNegative, analysis.percentNeutral],
-                backgroundColor: ['#66ff66', '#ff6666', '#999999'],
-                borderColor: ['#66ff66', '#ff6666', '#999999'],
-                borderWidth: 1
-            }]
-        },
+        data: sentimentData,
         options: {
-            responsive: true,
             plugins: {
                 legend: {
-                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 18 // Ajusta el tamaño de las etiquetas
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    topicChart = new Chart(topicCtx, {
+        type: 'bar',
+        data: topicData,
+        options: {
+            scales: {
+                x: {
+                    ticks: {
+                        font: {
+                            size: 16 // Ajusta el tamaño de las etiquetas en el eje X
+                        }
+                    }
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                y: {
+                    ticks: {
+                        font: {
+                            size: 16 // Ajusta el tamaño de las etiquetas en el eje Y
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 18 // Ajusta el tamaño de las etiquetas
                         }
                     }
                 }
@@ -129,4 +194,3 @@ function renderChart(analysis) {
         }
     });
 }
-
