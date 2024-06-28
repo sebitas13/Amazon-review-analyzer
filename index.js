@@ -4,7 +4,11 @@ const {getAnalysis} = require('./analisys/sentimentAnalysis');
 const app = express();
 const port = 3000;
 let arrayReviews = [];
+
+
+
 app.use(express.static('public'));
+
 
 app.get('/reviews/:asin', async (req, res) => {
     const asin = req.params.asin;
