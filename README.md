@@ -13,7 +13,11 @@ Este proyecto es una aplicación web que utiliza análisis de sentimientos y web
 
 
 
-https://github.com/sebitas13/Amazon-review-analyzer/assets/78001255/1d16ddc8-bbe0-4fd2-a53e-9c64eb11e421
+
+
+https://github.com/sebitas13/Amazon-review-analyzer/assets/78001255/9a4aa909-2506-4180-b636-a9cdfa860033
+
+
 
 
 
@@ -21,8 +25,8 @@ https://github.com/sebitas13/Amazon-review-analyzer/assets/78001255/1d16ddc8-bbe
 
 1. **Clona el repositorio:**
 
-   git clone https://github.com/tuusuario/tuprojecto.git
-   cd tuprojecto
+   git clone https://github.com/sebitas13/Amazon-review-analyzer
+   cd Amazon-review-analyzer
 
 2. **Instala las dependencias:**
 
@@ -57,6 +61,11 @@ https://github.com/sebitas13/Amazon-review-analyzer/assets/78001255/1d16ddc8-bbe
 - Chart.js
 - amazon-buddy (web scraping)
 - GoogleGenerativeAI (análisis de sentimientos)
+
+## Enlaces
+
+- [Repositorio del Frontend en React](https://github.com/sebitas13/Amazon-review-analyzer-frontend)
+
 
 ## Autor
 
